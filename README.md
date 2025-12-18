@@ -39,7 +39,7 @@ Erreur moyenne pondérée par le chiffre d’affaires de chaque magasin :
 | XGBoost Rolling Refit                 | 4,32 %               |
 | **Score consolidé de la sélection par meilleur modèle par magasin** | **4,22 %**   |
 
-Lecture : Si on avait uniquement sélectionné le "Naïf saisonnier" pour chaque magasin notre Weighted MAPE serait de 5,92%. En testant chaque magasin sur les 4 modèles pour ne retenir que le plus performant, nous gagnons drastiquement en prévision avec un score final de 4,22%.
+Lecture : Si on avait uniquement sélectionné le "Naïf saisonnier" pour chaque magasin notre Weighted MAPE serait de 5,92%. En testant chaque magasin sur les 4 modèles pour ne retenir que le plus performant, nous gagnons drastiquement en précision avec un score final de 4,22%.
 
 → **Gain de précision de ~30 %** par rapport à la méthode naïve.
 
