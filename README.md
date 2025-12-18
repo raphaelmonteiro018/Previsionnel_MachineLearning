@@ -25,7 +25,7 @@ Le script présent en pièce-jointe teste **4 approches** pour prévoir les vent
 4. **XGBoost Rolling Refit**  
 - Ce modèle calcule les prévisions de chaque semaine avec les ventes réelles les plus récentes.
 - Pour prévoir la semaine 2, on utilise les ventes réelles de la semaine 1 (celles de l'année dernière et non celles qui viennent tout juste d'etre prédites).  
-- Le modèle est donc plus précis mais plus long à exécuter (car pour chaque semaine à prévoir on entraine le modèle sur tout le jeu de données).
+- Le modèle est donc plus précis mais plus long à exécuter (car pour chaque semaine à prévoir le modèle se réentraine sur tout le jeu de données).
 
 ## 📊 Résultats globaux
 
