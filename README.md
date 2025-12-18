@@ -30,8 +30,6 @@ Le script présent en pièce-jointe teste **4 approches** pour prévoir les vent
 
 ## 📊 Résultats globaux
 
-Erreur moyenne pondérée par le chiffre d’affaires de chaque magasin :
-
 | Méthode de prévision                  | Weighted MAPE |
 |---------------------------------------|-----------------------|
 | Naïf saisonnier                       | 5,92 %               |
