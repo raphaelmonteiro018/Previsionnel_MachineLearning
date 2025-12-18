@@ -22,4 +22,5 @@ Ce projet personnel a été réalisé afin de monter en compétences sur des out
 
 ## 📁 Contenu du projet
 Etape 1 : Méthodologie et résultats des modèles prédictifs
+
 Etape 2 : Exploitation et visualisation des données
