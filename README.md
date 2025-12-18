@@ -44,16 +44,16 @@ Lecture : Si on avait uniquement sélectionné le "Naïf saisonnier" pour chaque
 → **Gain de précision de ~30 %** par rapport à la méthode naïve.
 
 ## 🔍 Éléments pris en compte dans le modèle
-- Impact des **jours fériés US** et du **Black Friday** (flag spécial par semaine)
-- Ventes des semaines précédentes (1, 4 et 52 semaines avant)
+- Impact des **jours fériés US** et du **Black Friday** (score "Holiday" de 1 ou de 0 qui permet d'identifier les semaines impactées par ces événements particuliers)
+- Ventes des semaines précédentes (lag de 1, 4 et 52 semaines)
 - Moyenne mobile sur 4 semaines
 - Numéro de la semaine dans l’année (saisonnalité)
 
-## ✅ Points forts de cette méthodologie
+## ✅ Points forts de ma méthodologie
 - Comparaison objective et automatique de 4 approches
-- Choix adapté à chaque magasin (pas une méthode unique pour tous)
-- Audit complet (fichier Excel avec tous les détails)
-- Résultats défendables en réunion : on sait exactement pourquoi une méthode a été choisie
+- Choix du modèle adapté en fonction des données historiques de chaque magasin
+- Auditabilité complète grace au fichier Excel généré : Il contient les détails par semaine, par magasin, les résultats consolidés et propose également des bandes d'incertitudes.
+- Résultats défendables : On sait exactement pourquoi une méthode a été choisie plutot qu'une autre, de plus, les scores sont pondérés par le CA ce qui favorise l'approche business-oriented.
 
 ## 📂 Contenu de cette branche
 - `walmart_forecast_final.py` : script principal avec tout le calcul
