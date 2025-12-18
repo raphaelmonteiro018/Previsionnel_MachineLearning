@@ -31,13 +31,13 @@ Le script présent en pièce-jointe teste **4 approches** pour prévoir les vent
 
 Erreur moyenne pondérée par le chiffre d’affaires de chaque magasin :
 
-| Méthode de prévision                  | Erreur moyenne (MAPE) | Retenue comme meilleure ?          |
-|---------------------------------------|-----------------------|------------------------------------|
-| Naïf saisonnier                       | 5,92 %               | Parfois (~10 % des magasins)       |
-| XGBoost CV one-step                   | 5,90 %               | Jamais sur ces données             |
-| XGBoost Itératif                      | 4,72 %               | Parfois (~20 %)                    |
-| XGBoost Rolling Refit                 | 4,32 %               | Souvent (~70 %)                    |
-| **Meilleure méthode choisie automatiquement** | **4,22 %**   | –                                  |
+| Méthode de prévision                  | Weighted MAPE |
+|---------------------------------------|-----------------------|
+| Naïf saisonnier                       | 5,92 %               |
+| XGBoost CV one-step                   | 5,90 %               |
+| XGBoost Itératif                      | 4,72 %               |
+| XGBoost Rolling Refit                 | 4,32 %               |
+| **Score consolidé de la sélection par meilleur modèle par magasin** | **4,22 %**   |
 
 → **Gain de précision de ~30 %** par rapport à la méthode naïve.
 
