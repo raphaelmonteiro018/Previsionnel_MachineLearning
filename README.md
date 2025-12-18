@@ -12,7 +12,7 @@ Le script présent en pièce-jointe teste **4 approches** pour prévoir les vent
 
 1. **Naïf saisonnier**  
 - Le modèle le plus basique qui consiste à dire : « Cette année, la semaine 1 aura les mêmes ventes que la semaine 1 de l’année dernière ».  
-- On copie simplement ce qui s’est passé il y a exactement 52 semaines (avantage : capture donc automatiquement la saisonnalité).
+- On copie simplement ce qui s’est passé il y a exactement 52 semaines (capture automatique de la saisonnalité).
 
 2. **XGBoost CV one-step**  
 - Ce modèle cumule moyenne mobile et lags (ventes d'il y a X temps) pour essayer de capter la tendance récente et de prédire sur le très court terme.
