@@ -19,13 +19,14 @@ Le script présent en pièce-jointe teste **4 approches** pour prévoir les vent
 - Dans notre cas de ventes retail la saisonnalité est tellement forte que seul le lag-52 (semaine identique de l'année dernière) est réellement pris en compte, les résultats de ce modèle sont donc similaires à ceux du "Naïf saisonnier".
 
 3. **XGBoost Itératif**  
-- Ce modèle utilise ses propres prévisions pour prédire les données semaine après semaine, il y a donc en théorie une accumulation d'erreur sur le long terme.
-- Ce problème est minoré par notre approche court terme visant à prédire uniquement 8 points de données par magasin.
+- Ce modèle utilise ses propres prévisions en plus des données réelles pour effectuer les prédictions.
+- Cette approche peut entraîner une propagation des erreurs à mesure que l’horizon de prévision s’allonge, dans la mesure où les prévisions passées servent de base aux suivantes.
+- Ce risque est volontairement limité par notre approche court terme visant à prédire 8 points de données par magasin (8 semaines).
 
-4. **XGBoost Rolling Refit**  
-- Ce modèle calcule les prévisions de chaque semaine avec les ventes réelles les plus récentes.
-- Pour prévoir la semaine 2, on utilise les ventes réelles de la semaine 1 (celles de l'année dernière et non celles qui viennent tout juste d'etre prédites).  
-- Le modèle est donc plus précis mais plus long à exécuter (car pour chaque semaine à prévoir le modèle se réentraine sur tout le jeu de données).
+4. **XGBoost Rolling Refit (Re-Fit Forecasting)**
+- Ce modèle effectue les prévisions semaine par semaine en réentraînant le modèle à chaque nouvelle observation disponible.
+- Pour prédire la semaine S+1, le modèle utilise les ventes réelles jusqu’à la semaine S et non ses propres prévisions.
+- Cette approche permet de réduire la propagation des erreurs et d’obtenir des prévisions plus précises, au prix d’un temps de calcul plus long, puisque le modèle est réentraîné à chaque pas.
 
 ## 📊 Résultats globaux
 
@@ -39,11 +40,11 @@ Erreur moyenne pondérée par le chiffre d’affaires de chaque magasin :
 | XGBoost Rolling Refit                 | 4,32 %               |
 | **Score consolidé de la sélection par meilleur modèle par magasin** | **4,22 %**   |
 
-Lecture : Si on avait uniquement sélectionné le "Naïf saisonnier" pour chaque magasin notre Weighted MAPE serait de 5,92%. En testant chaque magasin sur les 4 modèles pour ne retenir que le plus performant, nous gagnons drastiquement en précision avec un score final de 4,22%.
+Lecture : Pour chaque magasin, si on avait uniquement sélectionné le "Naïf saisonnier" notre Weighted MAPE serait de 5,92%. En testant chaque magasin sur les 4 modèles pour ne retenir que le plus performant, nous gagnons drastiquement en précision avec un score final de 4,22%.
 
 → **Gain de précision de ~30 %** par rapport à la méthode naïve.
 
-## 🔍 Éléments pris en compte dans le modèle
+## 🔍 Éléments pris en compte dans les modèles (hors naif saisonnier)
 - Impact des **jours fériés US** et du **Black Friday** (score "Holiday" de 1 ou de 0 qui permet d'identifier les semaines impactées par ces événements particuliers)
 - Ventes des semaines précédentes (lag de 1, 4 et 52 semaines)
 - Moyenne mobile sur 4 semaines
