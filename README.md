@@ -13,7 +13,7 @@ Ce projet personnel m’a permis de monter en compétences sur des outils statis
 1. Récupération du dataset et nettoyage des données
 2. Développement du modèle prévisionnel avec Python (Pandas / XGBoost)
 3. Lancement du script et génération automatique d'un fichier Excel (données nettoyées, transformées et prêtes à l'exploitation)
-4. Importation des données directement exploitables dans Power BI
+4. Importation dans Power BI et visualisation du rapport
 
 ## 🏗️ Outils utilisés
 - Python
