@@ -5,14 +5,14 @@ Pour naviguer entre les différentes étapes du processus veuillez sélectionner
 Ce projet personnel m’a permis de monter en compétences sur des outils statistiques dans le cadre de prévisions de données. La vocation de ce projet a également été de mettre en avant une approche business, afin de rendre les résultats les plus compréhensibles et exploitables possible.
 
 ## 🎯 Objectifs
-- Prévoir les ventes hebdomadaires de 45 magasins Walmart sur les **8 prochaines semaines** (à partir d'un dataset historique)
+- Prévoir les ventes hebdomadaires de 45 magasins Walmart sur les **8 prochaines semaines** (à partir d'un dataset historique récupéré sur Kagle)
 - Produire de manière automatisée un fichier Excel structuré et consolidé, directement exploitable via Power BI
 - Obtenir des résultats fiables, auditables et défendables
 
 ## 🔁 Workflow
 1. Récupération du dataset et nettoyage des données
 2. Développement du modèle prévisionnel avec Python (Pandas / XGBoost)
-3. Lancement du script et récupération automatique du fichier de résultats
+3. Lancement du script et génération automatique d'un fichier Excel (données nettoyées, transformées et prêtes à l'exploitation)
 4. Importation des données directement exploitables dans Power BI
 
 ## 🏗️ Outils utilisés
@@ -24,3 +24,5 @@ Ce projet personnel m’a permis de monter en compétences sur des outils statis
 Etape 1 : Méthodologie et résultats des modèles prédictifs
 
 Etape 2 : Exploitation et visualisation des données
+
+Etape 3 : Mise à jour du forecast en contexte opérationnel
