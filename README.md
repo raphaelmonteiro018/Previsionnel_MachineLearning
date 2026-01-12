@@ -28,9 +28,9 @@ Le script présent en pièce-jointe teste **3 approches** pour prévoir les vent
 - Ce risque est volontairement maîtrisée de par mon approche court terme visant à prédire 8 points de données par magasin (8 semaines) et une bonne qualité du modèle (bon scoring au WAPE et donc faibles erreurs potentielles).
 
 3. **XGBoost Rolling Refit (Re-Fit Forecasting)**
-- Ce modèle effectue les prévisions semaine par semaine en réentraînant le modèle à chaque nouvelle prévision, le tout sans intégrer ses propres résultats (contrairement au précédent modèle).
+- Ce modèle effectue les prévisions semaine par semaine en réentraînant le modèle à chaque nouvelle prévision, le tout sans intégrer ses propres résultats (contrairement au précédent modèle). Il capture également les relations complexes entre les regresseurs.
 - Le modèle s'entraîne sur une fenêtre glissante de 52 semaines.
-- Avantage : réduction de la propagation des erreurs et obtention de prévisions plus précises (meilleur score au WAPE)
+- Avantage : réduction de la propagation des erreurs et obtention de prévisions plus précises (meilleur score au WAPE).
 - Inconvénient : actualisation plus longue dans le cadre d'un reporting. Temps de calcul plus long car le modèle est réentraîné à chaque pas.
 
 ## 📊 Résultats globaux
