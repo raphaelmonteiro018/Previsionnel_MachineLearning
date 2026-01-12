@@ -2,31 +2,36 @@
 Cette branche détaille la **partie cœur du projet** : comment les prévisions sont calculées, quelles méthodes sont comparées, et quels en sont les résultats.
 
 ## 🎯 Objectifs de cette partie
-- Réaliser un benchmark de modèles prévisionnels à partir des données historiques de Wallmart
-- Mesurer leur précision à l'aide de l'indicateur MAPE (Mean Absolute Percentage Error : écart en pourcentage entre les valeurs réelles et les prédictions produites par le modèle)
-- Choisir automatiquement la meilleure méthode **pour chaque magasin**
-- Produire un audit clair et pondéré par le chiffre d'affaires
+- Réaliser un benchmark de modèles prévisionnels à partir des données historiques de Wallmart.
+- Mesurer leur précision à l'aide de l'indicateur WAPE (Weighted Absolute Percentage Error).
+- Choisir automatiquement la meilleure méthode **pour chaque magasin**.
+- Produire un audit clair des modèles et consolider les prévisions en pondérant les WAPE par le chiffre d'affaires.
+
+
+## Récupération, traitemement et description du dataset
+
+insérer les étapes pour avoir un dataset propre et exploitable.
 
 ## 🛠️ Méthodes comparées
-Le script présent en pièce-jointe teste **4 approches** pour prévoir les ventes sur 8 semaines :
+Le script présent en pièce-jointe teste **3 approches** pour prévoir les ventes sur 8 semaines (y+8) :
 
 1. **Naïf saisonnier**  
 - Le modèle le plus basique qui consiste à dire : « Cette année, la semaine 1 aura les mêmes ventes que la semaine 1 de l’année dernière ».  
-- On copie simplement ce qu'il s’est passé il y a exactement 52 semaines (capture automatique de la saisonnalité).
+- Le modèle copie simplement ce qu'il s’est passé il y a exactement 52 semaines (y-52).
+- Avantage : capture automatique de la saisonnalité.
+- Inconvénients : modèle peu sophistiqué, ignore complètement les phénomènes de tendances (moyennes mobiles).
 
-2. **XGBoost CV one-step**  
-- Ce modèle cumule moyenne mobile et lags (ventes d'il y a X temps) pour essayer de capter la tendance récente et de prédire sur le très court terme.
-- Dans notre cas de ventes retail la saisonnalité est tellement forte que seul le lag-52 (semaine identique de l'année dernière) est réellement pris en compte, les résultats de ce modèle sont donc similaires à ceux du "Naïf saisonnier".
+2. **XGBoost Itératif**  
+- Ce modèle intègre et capture les relations complexes entre les regresseurs (moyennes mobiles, points de données flagués comme importants, etc).
+- Lorsque le modèle prédit la prochaine valeur il l'intègre dans son historique de données et l'utilise pour la prévision suivante.
+- Cette approche peut entraîner une propagation des erreurs car une erreur à y+1, même minime, est répercutée à y+2, et ce jusqu'à la dernière prévision (ici y+8).
+- Ce risque est volontairement maîtrisée de par mon approche court terme visant à prédire 8 points de données par magasin (8 semaines) et une bonne qualité du modèle (bon scoring au WAPE et donc faibles erreurs potentielles).
 
-3. **XGBoost Itératif**  
-- Ce modèle utilise ses propres prévisions en plus des données réelles pour effectuer les prédictions.
-- Cette approche peut entraîner une propagation des erreurs à mesure que l’horizon de prévision s’allonge, dans la mesure où les prévisions passées servent de base aux suivantes.
-- Ce risque est volontairement limité par notre approche court terme visant à prédire 8 points de données par magasin (8 semaines).
-
-4. **XGBoost Rolling Refit (Re-Fit Forecasting)**
-- Ce modèle effectue les prévisions semaine par semaine en réentraînant le modèle à chaque nouvelle observation disponible.
-- Pour prédire la semaine S+1, le modèle utilise les ventes réelles jusqu’à la semaine S et non ses propres prévisions.
-- Cette approche permet de réduire la propagation des erreurs et d’obtenir des prévisions plus précises, au prix d’un temps de calcul plus long, puisque le modèle est réentraîné à chaque pas.
+3. **XGBoost Rolling Refit (Re-Fit Forecasting)**
+- Ce modèle effectue les prévisions semaine par semaine en réentraînant le modèle à chaque nouvelle prévision, le tout sans intégrer ses propres résultats (contrairement au précédent modèle).
+- Le modèle s'entraîne sur une fenêtre glissante de 52 semaines.
+- Avantage : réduction de la propagation des erreurs et obtention de prévisions plus précises (meilleur score au WAPE)
+- Inconvénient : actualisation plus longue dans le cadre d'un reporting. Temps de calcul plus long car le modèle est réentraîné à chaque pas.
 
 ## 📊 Résultats globaux
 
@@ -49,14 +54,14 @@ Lecture : Pour chaque magasin, si on avait uniquement sélectionné le "Naïf sa
 - Numéro de la semaine dans l’année (saisonnalité)
 
 ## ✅ Points forts de ma méthodologie
-- Comparaison objective et automatique de 4 approches
-- Choix du modèle adapté en fonction des données historiques de chaque magasin
-- Auditabilité complète grace au fichier Excel généré : Il contient les détails par semaine, par magasin, les résultats consolidés et propose également des bandes d'incertitudes.
-- Résultats défendables : On sait exactement pourquoi une méthode a été choisie plutot qu'une autre, de plus, les scores sont pondérés par le CA ce qui favorise l'approche business-oriented.
+- Comparaison objective et automatique de 3 approches.
+- Choix du modèle adapté en fonction des données historiques de chaque magasin.
+- Auditabilité complète grace au fichier Excel généré : détails par semaine, par magasin,résultats consolidés et bandes d'incertitudes.
+- Résultats défendables : On sait exactement pourquoi une méthode a été choisie plutot qu'une autre, de plus, les scores WAPE sont pondérés par le CA pour privilégier une approche business-oriented.
 
 ## 📂 Contenu de cette branche
 - `walmart_forecast_final.py` : script principal avec tout le calcul
-- Dossier `PowerBI_Ready` (généré au lancement) : fichier Excel avec les 4 onglets (historique, consolidé, audit, synthèse)
+- Dossier `PowerBI_Ready` (généré au lancement) : fichier Excel avec les 4 onglets (historique par magasin, historique consolidé, audit, synthèse)
 
 ## ➡️ Prochaine étape
 Une fois cette partie validée, passez à la branche **Étape 2** pour voir comment exploiter ces prévisions dans Power BI (visualisations, tableaux de bord, etc.).
