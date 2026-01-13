@@ -16,7 +16,7 @@ insérer les étapes pour avoir un dataset propre et exploitable.
 Le script présent en pièce-jointe teste **3 approches** pour prévoir les ventes sur 8 semaines (y+8) :
 
 1. **Naïf saisonnier**  
-- Le modèle le plus basique qui consiste à dire : « Cette année, la semaine 1 aura les mêmes ventes que la semaine 1 de l’année dernière ».  
+- Modèle de base du benchmark qui consiste à dire : « Cette année, la semaine 1 aura les mêmes ventes que la semaine 1 de l’année dernière ».  
 - Le modèle copie simplement ce qu'il s’est passé il y a exactement 52 semaines (y-52).
 - Avantage : capture automatique de la saisonnalité.
 - Inconvénients : modèle peu sophistiqué, ne contient aucune variable et ne capte donc pas les phénomènes de tendances (moyennes mobiles).
