@@ -5,7 +5,7 @@ Cette branche détaille la **partie cœur du projet** : comment les prévisions 
 - Réaliser un benchmark de modèles prévisionnels à partir des données historiques de Wallmart.
 - Mesurer leur précision à l'aide de l'indicateur WAPE (Weighted Absolute Percentage Error).
 - Choisir automatiquement la meilleure méthode **pour chaque magasin**.
-- Produire un audit clair des modèles et consolider les prévisions en pondérant les WAPE par le chiffre d'affaires.
+- Produire un audit clair des modèles et consolider les prévisions en pondérant chaque score WAPE par le chiffre d'affaires.
 
 
 ## Récupération, traitemement et description du dataset
@@ -19,7 +19,7 @@ Le script présent en pièce-jointe teste **3 approches** pour prévoir les vent
 - Le modèle le plus basique qui consiste à dire : « Cette année, la semaine 1 aura les mêmes ventes que la semaine 1 de l’année dernière ».  
 - Le modèle copie simplement ce qu'il s’est passé il y a exactement 52 semaines (y-52).
 - Avantage : capture automatique de la saisonnalité.
-- Inconvénients : modèle peu sophistiqué, ignore complètement les phénomènes de tendances (moyennes mobiles).
+- Inconvénients : modèle peu sophistiqué, ne contient aucune variable et ne capte donc pas les phénomènes de tendances (moyennes mobiles).
 
 2. **XGBoost Itératif**  
 - Ce modèle intègre et capture les relations complexes entre les regresseurs (moyennes mobiles, points de données flagués comme importants, etc).
@@ -28,7 +28,7 @@ Le script présent en pièce-jointe teste **3 approches** pour prévoir les vent
 - Ce risque est volontairement maîtrisée de par mon approche court terme visant à prédire 8 points de données par magasin (8 semaines) et une bonne qualité du modèle (bon scoring au WAPE et donc faibles erreurs potentielles).
 
 3. **XGBoost Rolling Refit (Re-Fit Forecasting)**
-- Ce modèle effectue les prévisions semaine par semaine en réentraînant le modèle à chaque nouvelle prévision, le tout sans intégrer ses propres résultats (contrairement au précédent modèle). Il capture également les relations complexes entre les regresseurs.
+- Ce modèle effectue les prévisions semaine par semaine en réentraînant le modèle à chaque nouvelle prévision, le tout sans intégrer ses propres résultats dans l'historique (contrairement au précédent modèle). Il capture également les relations complexes entre les regresseurs.
 - Le modèle s'entraîne sur une fenêtre glissante de 52 semaines.
 - Avantage : réduction de la propagation des erreurs et obtention de prévisions plus précises (meilleur score au WAPE).
 - Inconvénient : actualisation plus longue dans le cadre d'un reporting. Temps de calcul plus long car le modèle est réentraîné à chaque pas.
