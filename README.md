@@ -14,47 +14,26 @@ Cette section détaille le cœur analytique du projet, c'est-à-dire comment l'a
 
 📊 Statistiques Descriptives
 ==================================================
-ANALYSE DU RÉSEAU SOURCE (Consolidé)
-==================================================
-Moyenne Hebdomadaire Réseau  : 47,113,419.49 $
-Écart-type (Volatilité $)    :  5,425,137.12 $
-Coefficient de Variation (CV):         11.52 %
-==================================================
+
+### ANALYSE DU RÉSEAU SOURCE (Consolidé)
+
+| Statistique                       | Valeur                  |
+|----------------------------------|------------------------|
+| Moyenne Hebdomadaire Réseau       | 47,113,419.49 $        |
+| Écart-type (Volatilité $)         | 5,425,137.12 $         |
+| Coefficient de Variation (CV)     | 11.52 %                |
+
+---
+
+### Indicateurs et Impact sur le Modèle
+
+| Indicateur         | Valeur       | Impact sur le Modèle                                                                 |
+|-------------------|-------------|-------------------------------------------------------------------------------------|
+| Volume Moyen       | **~47.1 M$** | Enjeu financier massif : 1% d'erreur représente ~470k$ d'incertitude.              |
+| Volatilité (CV)    | 11.52 %      | Signifie une nervosité du réseau. Une simple moyenne mobile serait inefficace.     |
+| Structure          | Bimodale     | Deux pics extrêmes (Black Friday / Noël) imposent l'usage de Flags et de Lags.     |
 
 
-Indicateur,Valeur,Impact sur le Modèle
-Volume Moyen,**~47.1 M$**,Enjeu financier massif : 1% d'erreur représente ~470k$ d'incertitude.
-Volatilité (CV),11.52 %,Signifie une nervosité du réseau. Une simple moyenne mobile serait inefficace.
-Structure,Bimodale,Deux pics extrêmes (Black Friday / Noël) imposent l'usage de Flags et de Lags.
-
-
-# -------------------------------------------------------------------------------
-# 🔍 AUDIT & ANALYSE DU DATASET (PRE-MODELING)
-# -------------------------------------------------------------------------------
-
-[RESEAU_CONSOLIDÉ_STATS]
-======================================================================
-📊 ANALYSE DU RÉSEAU SOURCE (Consolidé)
-======================================================================
-Moyenne Hebdomadaire Réseau  : 47,113,419.49 $
-Écart-type (Volatilité $)    :  5,425,137.12 $
-Coefficient de Variation (CV):         11.52 %
-======================================================================
-
-[LOGIC_INTERPRETATION]
-> INDICATEUR : Volume Moyen (~47.1 M$)
-  IMPACT     : Enjeu financier critique (1% d'erreur = ~470k$ d'incertitude).
-  
-> INDICATEUR : Volatilité (CV 11.52 %)
-  IMPACT     : Nervosité réseau confirmée. Invalidation des moyennes mobiles simples.
-  
-> INDICATEUR : Structure Bimodale
-  IMPACT     : Pics Black Friday/Noël imposant l'usage de Flags et Lags profonds.
-
-[DATA_PIPELINE_WORKFLOW]
-1. Feature Engineering : Injection de variables binaires (Holiday_Flags).
-2. Time-Series Sync  : Alignement des 45 flux magasins pour consolidation.
-3. Lagging Strategy    : Intégration des vecteurs N-1 et N-52 (Saisonnalité).
 
 
 
