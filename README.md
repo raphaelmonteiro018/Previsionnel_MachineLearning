@@ -13,24 +13,23 @@ Cette section détaille le cœur analytique du projet, c'est-à-dire comment l'a
 - Avec Python j'ai généré une analyse descriptive sur les données consolidées des 45 points de vente pour définir la "baseline" statistique du réseau et mieux comprendre la stucture du dataset. J'ai d'abord récupéré la moyenne des ventes hebdomadaires pour le réseau, puis j'ai choisi d'étudier la variance de la série temporelle à travers l'écart-type, pour enfin calculer le coefficient de variation du dataset.
 
 📊 Statistiques Descriptives
+==================================================
 
-### ANALYSE DU RÉSEAU SOURCE (Consolidé)
+## Analyse de la série temporelle (consolidée)
 
 | Statistique                       | Valeur                  |
 |----------------------------------|------------------------|
 | Moyenne Hebdomadaire Réseau       | 47,113,419.49 $        |
-| Écart-type (Volatilité $)         | 5,425,137.12 $         |
+| Écart-type (en valeur absolue)         | 5,425,137.12 $         |
 | Coefficient de Variation (CV)     | 11.52 %                |
 
----
-
-### Indicateurs et Impact sur le Modèle
+## Indicateurs et impact sur le modélisation à réaliser
 
 | Indicateur         | Valeur       | Impact sur le Modèle                                                                 |
 |-------------------|-------------|-------------------------------------------------------------------------------------|
-| Volume Moyen       | **~47.1 M$** | Enjeu financier massif : 1% d'erreur représente ~470k$ d'incertitude.              |
-| Volatilité (CV)    | 11.52 %      | Signifie une nervosité du réseau. Une simple moyenne mobile serait inefficace.     |
-| Structure          | Bimodale     | Deux pics extrêmes (Black Friday / Noël) imposent l'usage de Flags et de Lags.     |
+| Ventes Moyennes du Réseau       | **~47.1 M$** | Enjeu financier massif : 1% d'erreur représente ~470k$ d'incertitude.              |
+| Volatilité (CV)    | 11.52 %      | Indique une nervosité du réseau. Une moyenne mobile simple serait inefficace car trop tardive à réaliser les déviations à la moyenne (forte saisonnalité) |
+| Structure de la série        | Bimodale     | Deux pics extrêmes (Black Friday / Noël) imposent l'usage de Flags et de Lags pour anticiper les changements de rythmes brutaux de l'activité     |
 
 
 
