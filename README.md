@@ -1,28 +1,30 @@
 ## Navigation
 Pour naviguer entre les différentes étapes du processus veuillez sélectionner les sous-branches nommées dans l'ordre d'exécution.
+*insérer capture d'écran ici*
 
 ## 🏢 Contexte
-Ce projet personnel m’a permis de monter en compétences sur des outils statistiques dans le cadre de forecasts, en cumulant rigueur méthodologique, transparence des modèles, et approche business.
+Ce projet a pour but de fournir une vision fiable et robuste de la trajectoire commerciale d'un réseau de 45 magasins. Il permet également de transformer un historique de ventes brutes en un outil de pilotage de la performance, et d'aide à la prise de décision stratégique.
 
 ## 🎯 Objectifs
-- Prévoir les ventes hebdomadaires de 45 magasins Walmart sur les **8 prochaines semaines** (à partir d'un dataset historique récupéré sur Kagle).
-- Produire de manière automatisée un fichier Excel structuré et consolidé, directement exploitable via Power BI.
-- Obtenir des résultats fiables, auditables et défendables.
+- Anticiper la trajectoire des ventes : Projeter les revenus du réseau sur un horizon de 8 semaines afin de s'adapter aux variations de l'activité.
+- Superviser la performance : Fournir un outil clair et orienté business, permettant à la fois la projection et la rétrospection des résultats.
+- Fiabiliser les chiffres et auditer le traitement de la donnée : Proposer un code auditable et une méthodologie documentée, permettant de justifier les chiffres affichés avec une précision de 94%.
+- Optimiser le reporting : Automatiser la consolidation des données et la création d'un Excel directement exploitable sous Power BI. Garantie d'une mise à jour peu chronophage.
 
 ## 🔁 Workflow
-1. Récupération du dataset et nettoyage des données.
-2. Développement du modèle prévisionnel avec Python (Pandas / XGBoost).
-3. Lancement du script et génération automatique d'un fichier Excel (données nettoyées, transformées et prêtes à l'exploitation).
-4. Import des données dans Power BI et visualisation du rapport.
+1. Récupération du dataset Wallmart (donnée publiée sur le site Kagle) et préparation du fichier source.
+2. Déploiement d'un moteur d'analyse sous Python pour chaque entité du réseau. 
+3. Génération automatisée d'un fichier structuré, éliminant les processus manuels et les risques d'erreurs de saisie.
+4. Import des données sous Power BI et visualisation dynamique des résultats.
 
 ## 🏗️ Outils utilisés
-- Python
-- Excel / VBA
-- Power BI
+- Power BI : DAX
+- Excel
+- Python : librairies Pandas, NumPy, Statsmodels, XGBoost (algorithme de machine learning)
 
 ## 📁 Contenu du projet
-Etape 1 : Méthodologie et résultats des modèles prédictifs
+Etape 1 : Méthodologie de construction des modèles statistiques et présentation de leurs performances.
 
-Etape 2 : Exploitation et visualisation des données
+Etape 2 : Présentation de l'outil de pilotage de la performance.
 
-Etape 3 : Mise à jour du forecast en contexte opérationnel
+Etape 3 : Mise à jour du forecast en contexte opérationnel.
