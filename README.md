@@ -11,6 +11,15 @@ Ce projet a pour but de fournir une vision fiable et robuste de la trajectoire c
 - Fiabiliser les chiffres et auditer le traitement de la donnée : Proposer un code auditable et une méthodologie documentée, permettant de justifier les chiffres affichés avec une précision de 94%.
 - Optimiser le reporting : Automatiser la consolidation des données et la création d'un Excel directement exploitable sous Power BI. Garantie d'une mise à jour peu chronophage.
 
+## 🚀 Résultats
+- Fiabilité des projections : 94,18% de précision (moyenne pondérée sur l'ensemble du réseau).
+
+Validation robuste : Performance testée et confirmée sur un historique de 26 semaines (~6 mois).
+
+Aide à la décision : Réduction de l'incertitude globale sous le seuil des 6% grâce à un arbitrage de modèles conservateur.
+
+Gain de productivité : Automatisation complète du pipeline (du calcul Python à la visualisation Power BI), garantissant une mise à jour rapide et sans saisie manuelle.
+
 ## 🔁 Workflow
 1. Récupération du dataset Wallmart (donnée publiée sur le site Kagle) et préparation du fichier source.
 2. Déploiement d'un moteur d'analyse sous Python pour chaque entité du réseau. 
