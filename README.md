@@ -13,7 +13,6 @@ Cette section détaille le cœur analytique du projet, c'est-à-dire comment l'a
 - Avec Python j'ai généré une analyse descriptive sur les données consolidées des 45 points de vente pour définir la "baseline" statistique du réseau et mieux comprendre la stucture du dataset. J'ai d'abord récupéré la moyenne des ventes hebdomadaires pour le réseau, puis j'ai choisi d'étudier la variance de la série temporelle à travers l'écart-type, pour enfin calculer le coefficient de variation du dataset.
 
 📊 Statistiques Descriptives
-==================================================
 
 ### ANALYSE DU RÉSEAU SOURCE (Consolidé)
 
