@@ -1,16 +1,36 @@
 ## 📈 Méthodologie et résultats des modèles prédictifs
-Cette branche détaille la **partie cœur du projet** : comment les prévisions sont calculées, quelles méthodes sont comparées, et quels en sont les résultats.
+Cette section détaille le cœur analytique du projet, c'est-à-dire comment l'architecture construite à partir de Python transforme un historique brut en une projection fiable.
 
 ## 🎯 Objectifs de cette partie
-- Réaliser un benchmark de modèles prévisionnels à partir des données historiques de Wallmart.
-- Mesurer leur précision à l'aide de l'indicateur WAPE (Weighted Absolute Percentage Error).
-- Choisir automatiquement la meilleure méthode **pour chaque magasin**.
-- Produire un audit clair des modèles et consolider les prévisions en pondérant chaque score WAPE par le chiffre d'affaires.
+- Construire un code capable de comparer dynamiquement plusieurs modèles statistiques pour chaque point de vente, en sélectionnant le plus précis (benchmark).
+- Mesurer la précision de ces modèles via l'indicateur WAPE (Weighted Absolute Percentage Error).
+- Adopter une approche business en pondérant l'erreur individuelle (WAPE) par le poids du chiffre d'affaires.
+- Justifier les choix de modélisation et donc les chiffres finaux, à partir d'une méthode documentée et reproductible.
+
+## 🔍 Récupération & Analyse du Dataset
+- Récupération du dataset Wallmart disponible librement sur Kagle.
+- Données des colonnes : Store (numéro du magasin), ds (date), y (ventes hebdomadaires du magasin), Holiday_Flag (binaire).
+- Avec Python j'ai généré une analyse descriptive sur les données consolidées des 45 points de vente pour définir la "baseline" statistique du réseau et mieux comprendre la stucture du dataset. J'ai d'abord récupéré la moyenne des ventes hebdomadaires pour le réseau, puis j'ai choisi d'étudier la variance de la série temporelle à travers l'écart-type, pour enfin calculer le coefficient de variation du dataset.
+
+📊 Statistiques Descriptives
+==================================================
+ANALYSE DU RÉSEAU SOURCE (Consolidé)
+==================================================
+Moyenne Hebdomadaire Réseau  : 47,113,419.49 $
+Écart-type (Volatilité $)    :  5,425,137.12 $
+Coefficient de Variation (CV):         11.52 %
+==================================================
 
 
-## Récupération, traitemement et description du dataset
+Indicateur,Valeur,Impact sur le Modèle
+Volume Moyen,**~47.1 M$**,Enjeu financier massif : 1% d'erreur représente ~470k$ d'incertitude.
+Volatilité (CV),11.52 %,Signifie une nervosité du réseau. Une simple moyenne mobile serait inefficace.
+Structure,Bimodale,Deux pics extrêmes (Black Friday / Noël) imposent l'usage de Flags et de Lags.
 
-insérer les étapes pour avoir un dataset propre et exploitable.
+
+
+
+
 
 ## 🛠️ Méthodes comparées
 Le script présent en pièce-jointe teste **3 approches** pour prévoir les ventes sur 8 semaines (y+8) :
