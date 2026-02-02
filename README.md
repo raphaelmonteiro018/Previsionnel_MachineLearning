@@ -8,17 +8,17 @@ Cette section détaille le cœur analytique du projet, c'est-à-dire comment l'a
 - Justifier les choix de modélisation et donc les chiffres finaux, à partir d'une méthode documentée et reproductible.
 
 ## 🔍 Récupération du dataset & Analyse visuelle de la série temporelle
-- Récupération du dataset Wallmart disponible librement sur Kaggle.
+- Récupération du dataset Walmart disponible librement sur Kaggle.
 - Données des colonnes : Store (numéro du magasin), ds (date), y (ventes hebdomadaires du magasin), Holiday_Flag (binaire).
 - Analyse simple de la série temporelle : Consolidation des données historiques et visualisation de la distribution des ventes ci-dessous.
 
 <img width="1238" height="378" alt="image" src="https://github.com/user-attachments/assets/111a0656-9045-4e80-9afa-49805a164c24" />
 
-#### Analyse : D'après la période étudiée (données de début 2010 à fin 2011), l'activité des 45 magasins Wallmart est extremement saisonnière, notre distribution prend donc une forme bimodale. -> Justifie l'approche via Python plutot qu'Excel.
+#### Analyse : D'après la période étudiée (données de début 2010 à fin 2011), l'activité des 45 magasins Wallmart est extremement saisonnière, notre distribution prend donc visuellement une forme bimodale. -> Justifie l'approche via Python plutot qu'Excel.
 
-#### Conséquence : L'intensité de l'activité est représentée par deux régimes distincts (baseline / pics) pour lesquels les intervalles de confiance doivent être calibrés dynamiquement pour refléter l'hétéroscédasticité des deux régimes.
-- L'hétéroscédasticité est la méthode de vérification des erreurs, représentées ici par le WAPE (Weighted Absolute Percentage Error), qui permet de prouver que la taille des erreurs dépend du régime de l'activité.
-- Exemple : Sur la baseline (stable), les déviations à la moyenne (écart-type) vont etre beaucoup plus faibles que sur les scénarios de pics d'activité.
+#### Conséquence : L'intensité de l'activité est représentée par deux régimes distincts (baseline / pics) pour lesquels les intervalles de confiance doivent être adaptés dynamiquement pour refléter la différence de tailles des erreurs (hétéroscédasticité) des deux régimes.
+- La vérification de la taille des erreurs (hétéroscédasticité), représentée ici par le WAPE (Weighted Absolute Percentage Error) permet de prouver qu'elles dépendent du régime de l'activité (baseline / pics).
+- Exemple : Sur la baseline (scénario stable), les déviations à la moyenne (écart-type) vont etre beaucoup plus faibles que sur les scénarios de pics d'activité. Plus simplement, la série à tendance à rompre sa moyenne momentanément, ces moments doivent faire l'objet d'une attention particulière.
 
 ## 📊 Statistiques Descriptives
 
