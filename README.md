@@ -16,7 +16,7 @@ Cette section détaille le cœur analytique du projet, c'est-à-dire comment l'a
 
 #### Analyse : D'après la période étudiée (données de début 2010 à fin 2011), l'activité des 45 magasins Wallmart est extremement saisonnière, notre distribution prend donc une forme bimodale.
 
-### Conséquence : L'intensité de l'activité est représentée par deux régimes distincts (baseline / pics) pour lesquels les prévisions (ainsi que leur intervalle de confiance) doivent-etre adaptés en conséquence.
+#### Conséquence : L'intensité de l'activité est représentée par deux régimes distincts (baseline / pics) pour lesquels les prévisions (ainsi que leur intervalle de confiance) doivent-etre adaptés en conséquence.
 
 ## 📊 Statistiques Descriptives
 
