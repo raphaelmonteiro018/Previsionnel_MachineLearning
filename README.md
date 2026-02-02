@@ -22,45 +22,45 @@ Cette section détaille le cœur analytique du projet, c'est-à-dire comment l'a
 
 ## 📊 Statistiques Descriptives
 
-### 1. Analyse globale de la série temporelle
-| Statistique | Valeur |
-| :--- | :--- |
-| **Moyenne Hebdomadaire Réseau** | **47,113,419.49 $** |
-| **Écart-type (σ)** | 5,425,137.12 $ |
-| **Coefficient de Variation (CV)** | **11.52 %** |
+### 1. Comparaison des régimes d'activité
+La segmentation de l'activité a été réalisée par le choix du 90ème Percentile des ventes hebdomadaires consolidées. Le point de bascule du régime "baseline" au régime "pics" a été statisquement quantifié à 49.88 M$, cela signifie que dans 90% du temps, le montant des ventes hebdomadaires consolidées est situé sous ce seuil. Ce choix permet d'isoler mathématiquement la "Queue de distribution" (Tail Risk), c'est-à-dire les 10% d'événements où la demande sature les capacités logistiques.
 
-| Indicateur | Valeur | Impact Stratégique & Modélisation |
+| Métrique | REGIME 1 (Baseline) | REGIME 2 (Pics) |
 | :--- | :--- | :--- |
-| **Ventes Moyennes** | **~47.1 M$** | Enjeu financier massif : 1% d'erreur représente **~471k$** d'incertitude sur le P&L. |
-| **Volatilité (CV)** | 11.52 % | Indique une nervosité du réseau. Une simple moyenne mobile serait inefficace car incapable de capturer les déviations brutales. |
-| **Structure** | Bimodale | Les deux pics extrêmes imposent l'usage de **Flags** et de **Lags** pour anticiper les ruptures de rythme. |
-
-> **💡 Insight :** L'écart-type massif (5.4 M$) par rapport à la moyenne indique que le réseau ne tourne jamais en "vitesse de croisière". La volatilité de 11.52% confirme que le pilotage manuel sur Excel est statistiquement condamné à l'erreur (sur-stockage ou rupture).
-
----
-
-### 2. Audit de Segmentation P90 (Gestion du Tail Risk)
-Pour affiner la précision, j'ai segmenté le réseau via le **90ème percentile (P90)**. Cette approche isole mathématiquement la "queue de distribution" (les 10% d'événements extrêmes) du reste de l'activité.
-
-| Métrique | Régime 1 : **Baseline** | Régime 2 : **Extreme Peaks** |
-| :--- | :--- | :--- |
-| **Seuil de CA (P90)** | < 49.88 M$ | **> 49.88 M$** |
+| **Nb. Semaines** | 128 (90%) | 15 (10%) |
+| **CA Moyen (μ)** | **45,767,633 $** | **58,597,458 $** |
+| **Écart-type (σ)** | 2,132,545 $ | **10,075,269 $** |
 | **Volatilité (CV)** | **4.66 %** | **17.19 %** |
-| **Hétéroscédasticité** | Régime Stable | **Incertitude x 4.72** |
+| **Amplitude CA** | [39.6M$ - 49.7M$] | [49.9M$ - 80.9M$] |
 
-> **💡 Insight :** On observe que l'incertitude ne progresse pas de manière linéaire : elle explose. En isolant les 15 semaines de "Peak", on découvre que le risque est **4.72 fois plus élevé** que le reste de l'année. Cette segmentation permet d'adapter les politiques de stock spécifiquement pour les périodes de haute tension.
+> **💡 Diagnostique :** L'écart-type est multiplié par **4.7** lors du passage de l'activité "normale" aux pics. Cette explosion de la volatilité des ventes prouve l'**hétéroscédasticité** de la série (l'erreur de prévision n'est pas constante). Cette approche est supérieure à une moyenne simple qui aurait complètement surestimé la volatilité des ventes futures dans un scénario de baseline et à sous-estimer la volatilité lors des scénarios de pics d'activité.
 
 ---
 
-### 3. Fiabilité Conditionnelle des Prévisions (Impact BFR)
-Le modèle n'applique pas une erreur uniforme. La précision (WAPE) est ajustée dynamiquement selon le régime de vente détecté pour optimiser le Besoin en Fonds de Roulement (BFR).
+### 2. Analyse de l'incertitude
 
-| Régime détecté | Précision (WAPE) | Impact sur le Pilotage (BFR) |
+| Indicateur | Valeur | Impact Stratégique |
 | :--- | :--- | :--- |
-| **Baseline** | **3.88 %** | Libération de cash : flux tendus sécurisés 90% de l'année. |
-| **Extreme Peaks** | **18.31 %** | Protection CA : extension des stocks de sécurité lors des pics. |
+| **Ratio d'incertitude** | **4.72x** | Le risque de rupture est 4.7 fois plus élevé lors des pics d'activité saisonniers |
+| **Incertitude Baseline** | **3.88 %** | Précision de 96.12% dans 90% de l'année (optimisation du BFR). |
+| **Incertitude Pics** | **18.31 %** | Marge de sécurité nécessaire pour couvrir la volatilité des pics. |
+| **Valeur du point de WAPE** | **~471 k$** | Chaque réduction d'incertitude permet d'allouer plus efficacement les ressources financières dédiées aux stocks et donc au BFR |
 
-> **💡 Insight :** Le score de 18.31% en période de pic n'est pas une faiblesse du modèle, mais une **modélisation réaliste de la volatilité intrinsèque** (17.19%). Cette approche permet de basculer du simple *Forecasting* au *Prescriptive Analytics* : le modèle prévient que les bornes de confiance doivent s'élargir pour absorber le choc de demande.
+> **💡 Diagnostique :** En isolant le régime "pics" le chiffre d'affaires est sécurisé. On accepte une incertitude de 18.31% sur les 10% des semaines avec les plus fortes ventes pour garantir un taux de service maximal, tout en maintenant une gestion tendue le reste de l'année (incertitude de 3.88% pour la baseline).
+
+---
+
+### 3. Conclusion sur la structure de la série
+L'activité bimodale de Walmart impose une approche **"Risk-Adjusted"**. L'utilisation de **Flags** (périodes Peak) et de **Lags** (historique glissant) dans notre modèle XGBoost permet d'anticiper le basculement du Régime 1 vers le Régime 2 avant qu'il n'impacte les stocks.
+
+
+
+
+
+
+
+
+
 
 
 
