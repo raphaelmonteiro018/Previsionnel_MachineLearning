@@ -1,4 +1,4 @@
-## 📈 Méthodologie et résultats des modèles prédictifs
+### 📈 Méthodologie et résultats des modèles prédictifs
 Cette section détaille le cœur analytique du projet, c'est-à-dire comment l'architecture construite à partir de Python transforme un historique brut en une projection fiable.
 
 ## 🎯 Objectifs de cette partie
