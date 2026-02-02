@@ -22,19 +22,46 @@ Cette section détaille le cœur analytique du projet, c'est-à-dire comment l'a
 
 ## 📊 Statistiques Descriptives
 
-## Analyse complémentaire de la série temporelle (consolidée)
+### 1. Analyse globale de la série temporelle
+| Statistique | Valeur |
+| :--- | :--- |
+| **Moyenne Hebdomadaire Réseau** | **47,113,419.49 $** |
+| **Écart-type (σ)** | 5,425,137.12 $ |
+| **Coefficient de Variation (CV)** | **11.52 %** |
 
-| Statistique                       | Valeur                  |
-|----------------------------------|------------------------|
-| Moyenne Hebdomadaire Réseau       | 47,113,419.49 $        |
-| Écart-type (en valeur absolue)         | 5,425,137.12 $         |
-| Coefficient de Variation (CV)     | 11.52 %                |
+| Indicateur | Valeur | Impact Stratégique & Modélisation |
+| :--- | :--- | :--- |
+| **Ventes Moyennes** | **~47.1 M$** | Enjeu financier massif : 1% d'erreur représente **~471k$** d'incertitude sur le P&L. |
+| **Volatilité (CV)** | 11.52 % | Indique une nervosité du réseau. Une simple moyenne mobile serait inefficace car incapable de capturer les déviations brutales. |
+| **Structure** | Bimodale | Les deux pics extrêmes imposent l'usage de **Flags** et de **Lags** pour anticiper les ruptures de rythme. |
 
-| Indicateur         | Valeur       | Impact sur le Modèle                                                                 |
-|-------------------|-------------|-------------------------------------------------------------------------------------|
-| Ventes Moyennes du Réseau       | **~47.1 M$** | Enjeu financier massif : 1% d'erreur représente ~470k$ d'incertitude.              |
-| Volatilité (CV)    | 11.52 %      | Indique une nervosité du réseau. Une moyenne mobile simple serait inefficace car trop tardive à réaliser les déviations à la moyenne (forte saisonnalité) |
-| Structure de la série        | Bimodale     | Deux pics extrêmes (Black Friday / Noël) imposent l'usage de Flags et de Lags pour anticiper les changements de rythmes brutaux de l'activité     |
+> **💡 Insight :** L'écart-type massif (5.4 M$) par rapport à la moyenne indique que le réseau ne tourne jamais en "vitesse de croisière". La volatilité de 11.52% confirme que le pilotage manuel sur Excel est statistiquement condamné à l'erreur (sur-stockage ou rupture).
+
+---
+
+### 2. Audit de Segmentation P90 (Gestion du Tail Risk)
+Pour affiner la précision, j'ai segmenté le réseau via le **90ème percentile (P90)**. Cette approche isole mathématiquement la "queue de distribution" (les 10% d'événements extrêmes) du reste de l'activité.
+
+| Métrique | Régime 1 : **Baseline** | Régime 2 : **Extreme Peaks** |
+| :--- | :--- | :--- |
+| **Seuil de CA (P90)** | < 49.88 M$ | **> 49.88 M$** |
+| **Volatilité (CV)** | **4.66 %** | **17.19 %** |
+| **Hétéroscédasticité** | Régime Stable | **Incertitude x 4.72** |
+
+> **💡 Insight :** On observe que l'incertitude ne progresse pas de manière linéaire : elle explose. En isolant les 15 semaines de "Peak", on découvre que le risque est **4.72 fois plus élevé** que le reste de l'année. Cette segmentation permet d'adapter les politiques de stock spécifiquement pour les périodes de haute tension.
+
+---
+
+### 3. Fiabilité Conditionnelle des Prévisions (Impact BFR)
+Le modèle n'applique pas une erreur uniforme. La précision (WAPE) est ajustée dynamiquement selon le régime de vente détecté pour optimiser le Besoin en Fonds de Roulement (BFR).
+
+| Régime détecté | Précision (WAPE) | Impact sur le Pilotage (BFR) |
+| :--- | :--- | :--- |
+| **Baseline** | **3.88 %** | Libération de cash : flux tendus sécurisés 90% de l'année. |
+| **Extreme Peaks** | **18.31 %** | Protection CA : extension des stocks de sécurité lors des pics. |
+
+> **💡 Insight :** Le score de 18.31% en période de pic n'est pas une faiblesse du modèle, mais une **modélisation réaliste de la volatilité intrinsèque** (17.19%). Cette approche permet de basculer du simple *Forecasting* au *Prescriptive Analytics* : le modèle prévient que les bornes de confiance doivent s'élargir pour absorber le choc de demande.
+
 
 
 
