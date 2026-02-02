@@ -1,4 +1,4 @@
-# 📈 Méthodologie et résultats des modèles prédictifs
+# 📈 Méthodologie & Résultats des modèles
 Cette section détaille le cœur analytique du projet, c'est-à-dire comment l'architecture construite à partir de Python transforme un historique brut en une projection fiable.
 
 ## 🎯 Objectifs de cette partie
@@ -23,9 +23,10 @@ Cette section détaille le cœur analytique du projet, c'est-à-dire comment l'a
 ## 📊 Statistiques Descriptives
 
 ### 1. Comparaison des régimes d'activité
-> **💡 La segmentation de l'activité a été réalisée par le choix du 90ème Percentile des ventes hebdomadaires consolidées.
-> Le point de bascule du régime "baseline" au régime "pics" a été statisquement quantifié à 49.88 M$ ci-dessous. Dans 90% du temps, le montant total des ventes est situé sous ce seuil.
-> Ce choix permet d'isoler mathématiquement la "Queue de distribution" (Tail Risk), c'est-à-dire les 10% d'événements "extremes".
+> **💡 Diagnostic :**
+> - La segmentation de l'activité a été réalisée par le choix du 90ème Percentile des ventes hebdomadaires consolidées.
+> - Le point de bascule du régime "baseline" au régime "pics" a été statisquement quantifié à 49.88 M$ ci-dessous. Dans 90% du temps, le montant total des ventes est situé sous ce seuil.
+> - Ce choix permet d'isoler mathématiquement la "Queue de distribution" (Tail Risk), c'est-à-dire les 10% d'événements "extremes".
 
 | Métrique | REGIME 1 (Baseline) | REGIME 2 (Pics) |
 | :--- | :--- | :--- |
@@ -35,7 +36,9 @@ Cette section détaille le cœur analytique du projet, c'est-à-dire comment l'a
 | **Volatilité (CV)** | **4.66 %** | **17.19 %** |
 | **Amplitude CA** | [39.6M$ - 49.7M$] | [49.9M$ - 80.9M$] |
 
-> **💡 Diagnostique :** L'écart-type est multiplié par **4.7** lors du passage de l'activité "normale" aux pics. Cette explosion de la volatilité des ventes prouve l'**hétéroscédasticité** de la série (l'erreur de prévision n'est pas constante). Cette approche est supérieure à une moyenne simple qui aurait complètement surestimé la volatilité des ventes futures dans un scénario de baseline et à sous-estimer la volatilité lors des scénarios de pics d'activité.
+> **💡 Diagnostic :**
+> - L'écart-type est multiplié par **4.7** lors du passage de l'activité "normale" aux pics. Cette explosion de la volatilité des ventes prouve l'**hétéroscédasticité** de la série (l'erreur de prévision n'est pas constante).
+> - Cette approche est supérieure à une moyenne simple qui aurait simplement surestimé la volatilité des ventes futures dans un scénario de baseline et sous-estimé celle lors des pics d'activité.
 
 ---
 
@@ -46,49 +49,48 @@ Cette section détaille le cœur analytique du projet, c'est-à-dire comment l'a
 | **Ratio d'incertitude** | **4.72x** | Le risque de rupture est 4.7 fois plus élevé lors des pics d'activité saisonniers |
 | **Incertitude Baseline** | **3.88 %** | Précision de 96.12% dans 90% de l'année (optimisation du BFR). |
 | **Incertitude Pics** | **18.31 %** | Marge de sécurité nécessaire pour couvrir la volatilité des pics. |
-| **Valeur du point de WAPE** | **~471 k$** | Chaque réduction d'incertitude permet d'allouer plus efficacement les ressources financières dédiées aux stocks et donc au BFR |
+| **Valeur du point de WAPE** | **~471 k$** | Pour chaque point d'incertitude réduit, le BFR peut-etre optisé en réduisant les dépenses liées aux stocks|
 
-> **💡 Diagnostique :** En isolant le régime "pics" le chiffre d'affaires est sécurisé. On accepte une incertitude de 18.31% sur les 10% des semaines avec les plus fortes ventes pour garantir un taux de service maximal, tout en maintenant une gestion tendue le reste de l'année (incertitude de 3.88% pour la baseline).
+> **💡 Diagnostic :** En isolant le régime "pics" le chiffre d'affaires est sécurisé. On accepte une incertitude de 18.31% sur les 10% des semaines avec les plus fortes ventes pour garantir un taux de service maximal, tout en maintenant une gestion tendue le reste de l'année (incertitude de 3.88% pour la baseline).
+
+
+## 🛠️ Conception & Explication du Benchmark
+- Le script *insérer nom du script* présent en pièce-jointe fait concourir **3 approches** pour chaque magasin et sélectionne dynamiquement la plus performante sur une période de validation étendue.
+- Le modèle est évalué et entrainé sur un horizon de 26 points de données hebdomadaires consolidées **soit 26 semaines (~6 mois)**.
 
 ---
 
-### 3. Conclusion sur la structure de la série
-L'activité bimodale de Walmart impose une approche **"Risk-Adjusted"**. L'utilisation de **Flags** (périodes Peak) et de **Lags** (historique glissant) dans notre modèle XGBoost permet d'anticiper le basculement du Régime 1 vers le Régime 2 avant qu'il n'impacte les stocks.
+### 1. Benchmark Naïf (Baseline Saisonnier)
+* **Logique** : Projection directe des ventes de l'année précédente ($y = y_{t-52}$). On reprend tout simplement la valeur de l'année précédente.
+* **Rôle** : Sert de garde-fou. Si un modèle complexe ne bat pas le Naïf, il est rejeté.
+*  **Inconvénient** : Ce modèle capture parfaitement la saisonnalité pure mais ignore les tendances de croissance et les relations complexes.
+
+### 2. Holt-Winters (Triple Lissage Exponentiel)
+* **Logique** : Modèle statistique classique décomposant la série en Niveau + Tendance + Saisonnalité ($Additive$).
+* **Force** : Très efficace sur les magasins ayant des cycles saisonniers très réguliers et peu de bruit aléatoire.
+
+### 3. XGBoost (Machine Learning)
+* **Logique** : Algorithme de Machine Learning utilisant des régresseurs avancés (Lags tels que y-52, Moyennes Mobiles, Flag des jours fériés et pics saisonniers).
+* **Méthode Itérative** : Le modèle prédit $y+1$, réintègre cette valeur dans son historique, recalcule les moyennes mobiles, puis prédit $y+2$.
+* **Force** : Capacité unique à capturer les ruptures de régime (ex: Thanksgiving et Noel) et les relations complexes dans les données.
+
+---
+
+## 🛡️ Sécurisation des Prévisions
+Plutôt que d'appliquer des bornes fixes, le modèle adapte ses intervalles de confiance en fonction du régime d'activité identifié lors de l'audit statistique.
+
+| Régime Détecté | Logique d'Incertitude | WAPE Cible | Stratégie de Stock |
+| :--- | :--- | :--- | :--- |
+| **Baseline** | Activité standard (< 49.88 M$) | **3.88 %** | **Flux tendus** : Réduction maximale de l'immobilisation financière. |
+| **Extreme Peaks** | Pics saisonniers (> 49.88 M$) | **18.31 %** | **Marge de sécurité** : Élargissement du tunnel pour couvrir la volatilité (Risk-Off). |
+
+> **💡 Note :** Le passage du WAPE de 3.88% à 18.31% n'est pas une perte de performance, mais une **calibration sur le risque réel**. En multipliant les bornes de confiance par **4.72** lors des pics, le modèle garantit un taux de service optimal là où un modèle standard provoquerait des ruptures massives.
+
+---
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-## 🛠️ Méthodes comparées
-Le script présent en pièce-jointe teste **3 approches** pour prévoir les ventes sur 8 semaines (y+8) :
-
-1. **Naïf saisonnier**  
-- Modèle de base du benchmark qui consiste à dire : « Cette année, la semaine 1 aura les mêmes ventes que la semaine 1 de l’année dernière ».  
-- Le modèle copie simplement ce qu'il s’est passé il y a exactement 52 semaines (y-52).
-- Avantage : capture automatique de la saisonnalité.
-- Inconvénients : modèle peu sophistiqué, ne contient aucune variable et ne capte donc pas les phénomènes de tendances (moyennes mobiles).
-
-2. **XGBoost Itératif**  
-- Ce modèle intègre et capture les relations complexes entre les regresseurs (moyennes mobiles, points de données flagués comme importants, etc).
-- Lorsque le modèle prédit la prochaine valeur il l'intègre dans son historique de données et l'utilise pour la prévision suivante.
-- Cette approche peut entraîner une propagation des erreurs car une erreur à y+1, même minime, est répercutée à y+2, et ce jusqu'à la dernière prévision (ici y+8).
-- Ce risque est volontairement maîtrisée de par mon approche court terme visant à prédire 8 points de données par magasin (8 semaines) et une bonne qualité du modèle (bon scoring au WAPE et donc faibles erreurs potentielles).
-
-3. **XGBoost Rolling Refit (Re-Fit Forecasting)**
-- Ce modèle effectue les prévisions semaine par semaine en réentraînant le modèle à chaque nouvelle prévision, le tout sans intégrer ses propres résultats dans l'historique (contrairement au précédent modèle). Il capture également les relations complexes entre les regresseurs.
-- Le modèle s'entraîne sur une fenêtre glissante de 52 semaines.
-- Avantage : réduction de la propagation des erreurs et obtention de prévisions plus précises (meilleur score au WAPE).
-- Inconvénient : actualisation plus longue dans le cadre d'un reporting. Temps de calcul plus long car le modèle est réentraîné à chaque pas.
 
 ## 📊 Résultats globaux
 
