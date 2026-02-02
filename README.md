@@ -10,19 +10,21 @@ Cette section détaille le cœur analytique du projet, c'est-à-dire comment l'a
 ## 🔍 Récupération du dataset & Analyse visuelle de la série temporelle
 - Récupération du dataset Wallmart disponible librement sur Kagle.
 - Données des colonnes : Store (numéro du magasin), ds (date), y (ventes hebdomadaires du magasin), Holiday_Flag (binaire).
-- Analyse simple de la série temporelle : consolidation des données historique à l'échelle réseau et visualisation de la distribution des ventes.
+- Analyse simple de la série temporelle : consolidation des données historiques et visualisation de la distribution des ventes ci-dessous.
+
+<img width="1238" height="378" alt="image" src="https://github.com/user-attachments/assets/111a0656-9045-4e80-9afa-49805a164c24" />
+Analyse : D'après la période étudiée (données de début 2010 à fin 2011), l'activité des 45 magasins Wallmart est extremement saisonnière, notre distribution prend donc une forme bimodale.
+Conséquence : L'intensité de l'activité est représentée par deux régimes distincts (baseline / pics) pour lesquels les prévisions (ainsi que leur intervalle de confiance) doivent-etre adaptés en conséquence.
 
 ## 📊 Statistiques Descriptives
 
--- Analyse de la série temporelle (consolidée)
+## Analyse complémentaire de la série temporelle (consolidée)
 
 | Statistique                       | Valeur                  |
 |----------------------------------|------------------------|
 | Moyenne Hebdomadaire Réseau       | 47,113,419.49 $        |
 | Écart-type (en valeur absolue)         | 5,425,137.12 $         |
 | Coefficient de Variation (CV)     | 11.52 %                |
-
-## Indicateurs et impact sur le modélisation à réaliser
 
 | Indicateur         | Valeur       | Impact sur le Modèle                                                                 |
 |-------------------|-------------|-------------------------------------------------------------------------------------|
