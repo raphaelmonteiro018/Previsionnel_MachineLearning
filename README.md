@@ -7,15 +7,14 @@ Cette section détaille le cœur analytique du projet, c'est-à-dire comment l'a
 - Adopter une approche business en pondérant l'erreur individuelle (WAPE) par le poids du chiffre d'affaires.
 - Justifier les choix de modélisation et donc les chiffres finaux, à partir d'une méthode documentée et reproductible.
 
-## 🔍 Récupération & Analyse du Dataset
+## 🔍 Récupération du dataset & Analyse visuelle de la série temporelle
 - Récupération du dataset Wallmart disponible librement sur Kagle.
 - Données des colonnes : Store (numéro du magasin), ds (date), y (ventes hebdomadaires du magasin), Holiday_Flag (binaire).
-- Avec Python j'ai généré une analyse descriptive sur les données consolidées des 45 points de vente pour définir la "baseline" statistique du réseau et mieux comprendre la stucture du dataset. J'ai d'abord récupéré la moyenne des ventes hebdomadaires pour le réseau, puis j'ai choisi d'étudier la variance de la série temporelle à travers l'écart-type, pour enfin calculer le coefficient de variation du dataset.
+- Analyse simple de la série temporelle : consolidation des données historique à l'échelle réseau et visualisation de la distribution des ventes.
 
-📊 Statistiques Descriptives
-==================================================
+## 📊 Statistiques Descriptives
 
-## Analyse de la série temporelle (consolidée)
+-- Analyse de la série temporelle (consolidée)
 
 | Statistique                       | Valeur                  |
 |----------------------------------|------------------------|
