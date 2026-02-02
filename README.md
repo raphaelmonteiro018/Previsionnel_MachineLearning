@@ -23,7 +23,9 @@ Cette section détaille le cœur analytique du projet, c'est-à-dire comment l'a
 ## 📊 Statistiques Descriptives
 
 ### 1. Comparaison des régimes d'activité
-La segmentation de l'activité a été réalisée par le choix du 90ème Percentile des ventes hebdomadaires consolidées. Le point de bascule du régime "baseline" au régime "pics" a été statisquement quantifié à 49.88 M$, cela signifie que dans 90% du temps, le montant des ventes hebdomadaires consolidées est situé sous ce seuil. Ce choix permet d'isoler mathématiquement la "Queue de distribution" (Tail Risk), c'est-à-dire les 10% d'événements où la demande sature les capacités logistiques.
+> **💡 La segmentation de l'activité a été réalisée par le choix du 90ème Percentile des ventes hebdomadaires consolidées.
+> Le point de bascule du régime "baseline" au régime "pics" a été statisquement quantifié à 49.88 M$ ci-dessous. Dans 90% du temps, le montant total des ventes est situé sous ce seuil.
+> Ce choix permet d'isoler mathématiquement la "Queue de distribution" (Tail Risk), c'est-à-dire les 10% d'événements "extremes".
 
 | Métrique | REGIME 1 (Baseline) | REGIME 2 (Pics) |
 | :--- | :--- | :--- |
