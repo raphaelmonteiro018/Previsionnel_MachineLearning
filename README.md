@@ -1,7 +1,7 @@
 # 📈 Méthodologie & Résultats des modèles
 Cette section détaille le cœur analytique du projet, c'est-à-dire comment l'architecture construite à partir de Python transforme un historique brut en une projection fiable.
 
-## 🎯 Objectifs de cette partie
+## 🎯 Objectifs de l'étape
 - Construire un code capable de comparer dynamiquement plusieurs modèles statistiques pour chaque point de vente, en sélectionnant le plus précis (benchmark).
 - Mesurer la précision de ces modèles via l'indicateur WAPE (Weighted Absolute Percentage Error).
 - Adopter une approche business en pondérant l'erreur individuelle (WAPE) par le poids du chiffre d'affaires.
