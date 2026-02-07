@@ -1,7 +1,3 @@
-## Navigation
-Pour naviguer entre les différentes étapes du processus veuillez sélectionner les sous-branches nommées dans l'ordre d'exécution.
-*insérer capture d'écran ici*
-
 ## 🏢 Contexte
 Ce projet a pour but de fournir une vision fiable et robuste de la trajectoire commerciale d'un réseau de 45 magasins. Il permet également de transformer un historique de ventes brutes en un outil de pilotage de la performance, et d'aide à la prise de décision stratégique.
 
@@ -32,3 +28,7 @@ Ce projet a pour but de fournir une vision fiable et robuste de la trajectoire c
 - Etape 1 : Méthodologie et présentation des performances.
 - Etape 2 : Présentation de l'outil de pilotage.
 - Etape 3 : Mise à jour du forecast en contexte opérationnel.
+
+## Navigation
+Pour naviguer entre les différentes étapes du processus veuillez sélectionner les sous-branches nommées dans l'ordre d'exécution.
+<img width="1852" height="542" alt="image" src="https://github.com/user-attachments/assets/33f30c23-07e8-4ded-9889-c6039f5d3725" />
