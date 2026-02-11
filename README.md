@@ -25,9 +25,8 @@ Ce projet a pour but de fournir une vision fiable et robuste de la trajectoire c
 - Python : librairies Pandas, NumPy, Statsmodels, XGBoost (algorithme de machine learning)
 
 ## 📁 Contenu du projet
-- Etape 1 : Méthodologie et présentation des performances.
-- Etape 2 : Présentation de l'outil de pilotage.
-- Etape 3 : Mise à jour du forecast en contexte opérationnel.
+- Etape 1 : Méthodologie & Revue des modèles.
+- Etape 2 : Présentation & Mise à jour de l'outil.
 
 ## Navigation
 Pour naviguer entre les différentes étapes du processus veuillez sélectionner les sous-branches nommées dans l'ordre d'exécution.
